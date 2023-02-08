@@ -1,20 +1,15 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 import Home from "../screens/Home";
 import WeekScreen from "../screens/Week";
 
-const MainStack = createBottomTabNavigator();
+const MainStack = createStackNavigator();
 
 const Main = () => {
   return (
     <NavigationContainer>
-      <MainStack.Navigator
-        screenOptions={{
-          tabBarShowLabel: false,
-          tabBarHideOnKeyboard: true,
-        }}
-      >
+      <MainStack.Navigator initialRouteName="Home">
         <MainStack.Screen
           options={{ headerShown: false }}
           name="Home"
