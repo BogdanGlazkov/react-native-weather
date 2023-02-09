@@ -2,7 +2,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Home from "../screens/Home";
-import WeekScreen from "../screens/Week";
+import ForecastScreen from "../screens/ForecastScreen";
 
 const MainStack = createStackNavigator();
 
@@ -17,8 +17,8 @@ const Main = () => {
         />
         <MainStack.Screen
           options={{ headerShown: false }}
-          name="Week"
-          component={WeekScreen}
+          name="ForecastScreen"
+          component={ForecastScreen}
         />
       </MainStack.Navigator>
     </NavigationContainer>

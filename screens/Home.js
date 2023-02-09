@@ -6,11 +6,12 @@ import {
   getForecastApi,
 } from "../redux/weather/weatherOperations";
 import { Feather } from "@expo/vector-icons";
+import WeatherDetails from "../components/WeatherDetails";
 import Loader from "../components/Loader";
 
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.weather.currentWeather);
+  const dataCurrent = useSelector((state) => state.weather.currentWeather);
   const dataWeekly = useSelector((state) => state.weather.weeklyWeather);
   const query = "Kyiv";
 
@@ -19,18 +20,17 @@ const HomeScreen = ({ navigation }) => {
     dispatch(getForecastApi(query));
   }, []);
 
-  if (data && dataWeekly) {
+  if (dataCurrent && dataWeekly) {
     const {
       city,
-      description,
+      description: main,
       humidity,
-      maxTemp,
-      minTemp,
+      maxTemp: tempMax,
+      minTemp: tempMin,
       pressure,
       temp,
-      wind_deg,
-      wind_speed,
-    } = data;
+      wind_speed: wind,
+    } = dataCurrent;
     const date = new Date();
     const fullDate = date.toDateString();
     const hour = date.getHours();
@@ -43,11 +43,11 @@ const HomeScreen = ({ navigation }) => {
       weekData.push({
         day: dataWeekly[i].dt * 1000,
         dayOfTheWeek: days[dayIndex],
-        temp: parseInt(dataWeekly[i].main.temp),
-        tempMax: parseInt(dataWeekly[i].main.temp_max),
-        tempMin: parseInt(dataWeekly[i].main.temp_min),
+        temp: dataWeekly[i].main.temp,
+        tempMax: dataWeekly[i].main.temp_max,
+        tempMin: dataWeekly[i].main.temp_min,
         main: dataWeekly[i].weather[0].main,
-        wind: parseInt(dataWeekly[i].wind.speed),
+        wind: dataWeekly[i].wind.speed,
         humidity: dataWeekly[i].main.humidity,
         pressure: dataWeekly[i].main.pressure,
       });
@@ -80,46 +80,10 @@ const HomeScreen = ({ navigation }) => {
           )}
         </View>
 
-        {/*Temprature */}
-        <View>
-          <Text style={styles.temp}>
-            {parseInt(temp)}
-            <Text style={styles.tempSign}>°C</Text>
-          </Text>
-          <View style={styles.tempSub}>
-            <Text style={styles.tempSubtext}>
-              Min {parseInt(minTemp)} Max {parseInt(maxTemp)}
-            </Text>
-          </View>
-        </View>
-
-        {/*Weather Condition */}
-        <View>
-          <Text style={styles.weatherUppercase}>{description}</Text>
-        </View>
-
-        {/*Other Weather Data */}
-        <View style={styles.otherData}>
-          <View style={styles.humidity}>
-            <Text style={styles.otherDataValueText}>
-              {humidity} <Text style={styles.unitText}>%</Text>
-            </Text>
-            <Text style={styles.otherDataText}>Humidity</Text>
-          </View>
-          <View style={styles.pressure}>
-            <Text style={styles.otherDataValueText}>
-              {parseInt(wind_speed)} <Text style={styles.unitText}>km/h</Text>
-              {/* {wind_deg} <Text style={styles.unitText}>'</Text> */}
-            </Text>
-            <Text style={styles.otherDataText}>Wind</Text>
-          </View>
-          <View style={styles.windSpeed}>
-            <Text style={styles.otherDataValueText}>
-              {pressure} <Text style={styles.unitText}>hPa</Text>
-            </Text>
-            <Text style={styles.otherDataText}>Pressure</Text>
-          </View>
-        </View>
+        {/* WeatherDetails */}
+        <WeatherDetails
+          data={{ temp, tempMin, tempMax, main, humidity, wind, pressure }}
+        />
 
         {/* 5 Day Weather Graph */}
         <View style={styles.calendar}>
@@ -130,12 +94,13 @@ const HomeScreen = ({ navigation }) => {
             </Text>
           </View>
           <View style={styles.calendarDays}>
-            {weekData.map((el) => {
+            {weekData.map((el, i) => {
               return (
                 <TouchableOpacity
+                  key={i}
                   style={styles.calendarDay}
                   onPress={() =>
-                    navigation.navigate("Week", {
+                    navigation.navigate("ForecastScreen", {
                       city,
                       ...el,
                     })
@@ -188,22 +153,6 @@ const styles = StyleSheet.create({
     height: 150,
     width: 150,
   },
-  temp: {
-    color: "rgba(256,256,256,0.9)",
-    fontSize: 60,
-    alignSelf: "center",
-  },
-  tempSign: {
-    color: "rgba(256,256,256,0.4)",
-  },
-  tempSub: {
-    color: "rgba(256,256,256,0.4)",
-  },
-  tempSubtext: {
-    fontSize: 16,
-    marginBottom: 10,
-    color: "rgba(256,256,256,0.4)",
-  },
   weatherUppercase: {
     color: "rgba(256,256,256,0.6)",
     fontSize: 18,
@@ -211,52 +160,6 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     fontWeight: "600",
     letterSpacing: 2,
-  },
-  otherData: {
-    flex: 0.8,
-    flexDirection: "row",
-    alignSelf: "center",
-    justifyContent: "space-between",
-    marginVertical: 10,
-    borderRadius: 30,
-  },
-  humidity: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100%",
-    width: "100%",
-    marginHorizontal: 5,
-  },
-  pressure: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100%",
-    width: "100%",
-    marginHorizontal: 5,
-  },
-  windSpeed: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100%",
-    width: "100%",
-    marginHorizontal: 5,
-  },
-  otherDataValueText: {
-    fontSize: 14,
-    color: "rgba(256,256,256,0.9)",
-  },
-  otherDataText: {
-    fontSize: 14,
-    color: "rgba(256,256,256,0.6)",
-    marginTop: 10,
-    textTransform: "capitalize",
-  },
-  unitText: {
-    fontSize: 12,
-    color: "rgba(256,256,256,0.6)",
   },
   dailyData: {
     flex: 1,
