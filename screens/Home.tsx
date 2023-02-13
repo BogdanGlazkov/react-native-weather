@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import {
   View,
   Text,
@@ -12,15 +11,16 @@ import {
   getWeatherApi,
   getForecastApi,
 } from "../redux/weather/weatherOperations";
+import {UseAppDispatch, UseAppSelector } from "../hooks";
 import { Feather } from "@expo/vector-icons";
 import WeatherDetails from "../components/WeatherDetails";
 import Loader from "../components/Loader";
 
 const HomeScreen = ({ navigation }) => {
   const [query, setQuery] = useState("");
-  const dataCurrent = useSelector((state) => state.weather.currentWeather);
-  const dataWeekly = useSelector((state) => state.weather.weeklyWeather);
-  const dispatch = useDispatch();
+  const dataCurrent = UseAppSelector((state) => state.weather.currentWeather);
+  const dataWeekly = UseAppSelector((state) => state.weather.weeklyWeather);
+  const dispatch = UseAppDispatch();
 
   useEffect(() => {
     dispatch(getWeatherApi(query || "Kyiv"));
@@ -178,6 +178,8 @@ const styles = StyleSheet.create({
     width: 50,
     justifyContent: "center",
     alignItems: "center",
+    borderRadius: 20,
+    overflow: "hidden",
   },
   date: {
     marginTop: "10%",
@@ -211,11 +213,6 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     letterSpacing: 2,
   },
-  dailyData: {
-    flex: 1,
-    alignSelf: "center",
-    borderRadius: 30,
-  },
   calendar: {
     flex: 1,
   },
@@ -247,12 +244,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "rgba(256,256,256,0.9)",
-  },
-  dailyData: {
-    flex: 1,
-    width: "80%",
-    alignSelf: "center",
-    borderRadius: 30,
   },
 });
 

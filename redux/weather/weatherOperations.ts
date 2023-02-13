@@ -11,7 +11,6 @@ export const getWeatherApi = (city) => async (dispatch) => {
       `${BASE_URL}/weather?q=${city}&units=metric&appid=${API_KEY}`
     );
     const data = await res.json();
-    console.log(data);
     if (data.cod === "404") {
       Alert.alert("Sorry, there's no such city. Try again, please");
       await dispatch(setError({ error: data.message }));

@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 const WeatherDetails = ({ data }) => {
-  const { temp, tempMin, tempMax, main, humidity, wind, pressure } = data;
+  const { temp, tempMin, tempMax, main, humidity, wind, pressure }: any = data;
   return (
     <>
       {/*Temprature */}
@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
     color: "rgba(256,256,256,0.4)",
   },
   tempSub: {
-    color: "rgba(256,256,256,0.4)",
   },
   tempSubtext: {
     fontSize: 16,

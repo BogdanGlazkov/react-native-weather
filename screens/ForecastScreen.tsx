@@ -72,6 +72,10 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: "rgba(256,256,256,0.9)",
   },
+  exit: {
+    width: 24,
+    height: 24,
+  },
   mainContainer: {
     flex: 1,
     alignItems: "center",
