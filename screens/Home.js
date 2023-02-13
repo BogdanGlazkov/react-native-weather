@@ -1,6 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import {
   getWeatherApi,
   getForecastApi,
@@ -10,15 +17,22 @@ import WeatherDetails from "../components/WeatherDetails";
 import Loader from "../components/Loader";
 
 const HomeScreen = ({ navigation }) => {
-  const dispatch = useDispatch();
+  const [query, setQuery] = useState("");
   const dataCurrent = useSelector((state) => state.weather.currentWeather);
   const dataWeekly = useSelector((state) => state.weather.weeklyWeather);
-  const query = "Kyiv";
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(getWeatherApi(query || "Kyiv"));
+    dispatch(getForecastApi(query || "Kyiv"));
+  }, []);
+
+  const submit = () => {
+    if (!query) return;
     dispatch(getWeatherApi(query));
     dispatch(getForecastApi(query));
-  }, []);
+    setQuery("");
+  };
 
   if (dataCurrent && dataWeekly) {
     const {
@@ -55,6 +69,21 @@ const HomeScreen = ({ navigation }) => {
 
     return (
       <View style={styles.container}>
+        {/* Search */}
+        <View style={styles.search}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Type city..."
+            placeholderTextColor={"rgba(256,256,256,0.4)"}
+            keyboardType="web-search"
+            value={query}
+            onChangeText={(val) => setQuery(val)}
+          />
+          <TouchableOpacity style={styles.searchBtn} onPress={submit}>
+            <Feather name="search" size={24} color="rgba(256,256,256,0.6)" />
+          </TouchableOpacity>
+        </View>
+
         {/* Present Date */}
         <View style={styles.date}>
           <Text style={styles.dateText}>{fullDate}</Text>
@@ -126,11 +155,32 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 10,
+    padding: 10,
     backgroundColor: "#006B76",
   },
+  search: {
+    flexDirection: "row",
+    marginTop: "10%",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 30,
+    padding: 4,
+    paddingLeft: 25,
+    backgroundColor: "rgba(256,256,256,0.1)",
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 18,
+    color: "rgba(256,256,256,0.9)",
+  },
+  searchBtn: {
+    height: 50,
+    width: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   date: {
-    marginTop: "15%",
+    marginTop: "10%",
   },
   dateText: {
     color: "rgba(256,256,256,0.6)",

@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignSelf: "center",
     justifyContent: "space-between",
-    marginVertical: 10,
     borderRadius: 30,
   },
   humidity: {
