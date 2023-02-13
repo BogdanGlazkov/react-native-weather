@@ -6,11 +6,11 @@ This is a weather app build with React Native. Which is using Openweather API fo
 
 # How to use
 
-npm install - to install all dependencies.
-npm start - to start the app.
-Press w to open web, or
-press a to open Android on emulator (AndroidStudio), or
-scan the QR code with Expo Go (Android) or the Camera app (iOS).
+- npm install - to install all dependencies
+- npm start - to start the app
+- Then press w to open web, or
+- press a to open Android on emulator (AndroidStudio), or
+- scan the QR code with Expo Go (Android) or the Camera app (iOS).
 
 # Technologies
 
