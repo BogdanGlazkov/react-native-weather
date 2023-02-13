@@ -2,7 +2,7 @@ import { Alert } from "react-native";
 import { API_KEY } from "../../constants/keys";
 import { weatherSlice } from "./weatherReducer";
 
-const { getWeather, getWeeklyWeather } = weatherSlice.actions;
+const { getWeather, getWeeklyWeather, setError } = weatherSlice.actions;
 const BASE_URL = "https://api.openweathermap.org/data/2.5";
 
 export const getWeatherApi = (city) => async (dispatch) => {
@@ -11,6 +11,12 @@ export const getWeatherApi = (city) => async (dispatch) => {
       `${BASE_URL}/weather?q=${city}&units=metric&appid=${API_KEY}`
     );
     const data = await res.json();
+    console.log(data);
+    if (data.cod === "404") {
+      Alert.alert("Sorry, there's no such city. Try again, please");
+      await dispatch(setError({ error: data.message }));
+      return;
+    }
     const currentWeather = {
       city: data.name,
       description: data.weather[0].main,
@@ -35,8 +41,10 @@ export const getForecastApi = (city) => async (dispatch) => {
       `${BASE_URL}/forecast?q=${city}&units=metric&appid=${API_KEY}`
     );
     const data = await res.json();
-    const weeklyWeather = data.list;
-    await dispatch(getWeeklyWeather({ weeklyWeather }));
+    if (data.list) {
+      const weeklyWeather = data.list;
+      await dispatch(getWeeklyWeather({ weeklyWeather }));
+    }
   } catch (error) {
     Alert.alert("Something went wrong. Try again, please");
     console.log("error.message: ", error.message);

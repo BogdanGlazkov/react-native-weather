@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   currentWeather: null,
   weeklyWeather: null,
+  error: null,
 };
 
 export const weatherSlice = createSlice({
@@ -11,9 +12,13 @@ export const weatherSlice = createSlice({
   reducers: {
     getWeather: (state, { payload }) => ({
       ...state,
-      currentWeather: payload.currentWeather,
+      ...payload,
     }),
     getWeeklyWeather: (state, { payload }) => ({
+      ...state,
+      ...payload,
+    }),
+    setError: (state, { payload }) => ({
       ...state,
       ...payload,
     }),
