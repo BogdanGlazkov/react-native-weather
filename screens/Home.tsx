@@ -11,15 +11,15 @@ import {
   getWeatherApi,
   getForecastApi,
 } from "../redux/weather/weatherOperations";
-import {UseAppDispatch, UseAppSelector } from "../hooks";
+import { UseAppDispatch, UseAppSelector } from "../hooks";
 import { Feather } from "@expo/vector-icons";
 import WeatherDetails from "../components/WeatherDetails";
 import Loader from "../components/Loader";
 
 const HomeScreen = ({ navigation }) => {
   const [query, setQuery] = useState("");
-  const dataCurrent = UseAppSelector((state) => state.weather.currentWeather);
-  const dataWeekly = UseAppSelector((state) => state.weather.weeklyWeather);
+  const dataCurrent = UseAppSelector((state) => state?.weather?.currentWeather);
+  const dataWeekly = UseAppSelector((state) => state?.weather?.weeklyWeather);
   const dispatch = UseAppDispatch();
 
   useEffect(() => {

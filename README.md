@@ -6,7 +6,7 @@ This is a weather app build with React Native. Which is using Openweather API fo
 
 # How to use
 
-- npm install - to install all dependencies
+- npm ci - to install all dependencies
 - npm start - to start the app
 - Then press w to open web, or
 - press a to open Android on emulator (AndroidStudio), or
@@ -16,6 +16,8 @@ This is a weather app build with React Native. Which is using Openweather API fo
 
 - React Native
 - React Navigation
+- Redux
+- Redux-Saga
 - Expo
 - TypeScript
 - Visual Studio Code
