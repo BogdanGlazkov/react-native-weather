@@ -1,26 +1,31 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {
+  SET_QUERY,
+  GET_CURRENT,
+  GET_WEEKLY,
+  SET_ERROR,
+  SKIP_ERROR,
+} from "../types";
 
 const initialState = {
   currentWeather: null,
   weeklyWeather: null,
+  query: "",
   error: null,
 };
 
-export const weatherSlice = createSlice({
-  name: "weather",
-  initialState,
-  reducers: {
-    getWeather: (state, { payload }) => ({
-      ...state,
-      ...payload,
-    }),
-    getWeeklyWeather: (state, { payload }) => ({
-      ...state,
-      ...payload,
-    }),
-    setError: (state, { payload }) => ({
-      ...state,
-      ...payload,
-    }),
-  },
-});
+export const weatherReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case SET_QUERY:
+      return { ...state, query: action.payload };
+    case GET_CURRENT:
+      return { ...state, currentWeather: action.payload };
+    case GET_WEEKLY:
+      return { ...state, weeklyWeather: action.payload };
+    case SET_ERROR:
+      return { ...state, error: action.payload };
+    case SKIP_ERROR:
+      return { ...state, error: null };
+    default:
+      return state;
+  }
+};

@@ -7,10 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import {
-  getWeatherApi,
-  getForecastApi,
-} from "../redux/weather/weatherOperations";
+import { setQuery as setSearch } from "../redux/weather/weatherActions";
 import { UseAppDispatch, UseAppSelector } from "../hooks";
 import { Feather } from "@expo/vector-icons";
 import WeatherDetails from "../components/WeatherDetails";
@@ -23,14 +20,12 @@ const HomeScreen = ({ navigation }) => {
   const dispatch = UseAppDispatch();
 
   useEffect(() => {
-    dispatch(getWeatherApi(query || "Kyiv"));
-    dispatch(getForecastApi(query || "Kyiv"));
+    dispatch(setSearch(query || "Kyiv"));
   }, []);
 
   const submit = () => {
-    if (!query) return;
-    dispatch(getWeatherApi(query));
-    dispatch(getForecastApi(query));
+    if (!query.trim()) return;
+    dispatch(setSearch(query));
     setQuery("");
   };
 
