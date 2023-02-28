@@ -5,6 +5,7 @@ import {
   getCurrentWeather,
   getWeeklyWeather,
   setError,
+  WeatherActions,
 } from "../weather/weatherActions";
 import { getWeatherApi, getForecastApi } from "../../services/api";
 import weatherSelectors from "../weather/weatherSelectors";
@@ -35,7 +36,7 @@ export function* workerGetCurrent() {
     }
   } catch (error) {
     Alert.alert("Something went wrong. Try again, please");
-    yield put(setError(data.message));
+    yield put(setError(error.message));
   }
 }
 
@@ -54,7 +55,7 @@ export function* workerGetWeekly() {
     }
   } catch (error) {
     Alert.alert("Something went wrong. Try again, please");
-    yield put(setError(data.message));
+    yield put(setError(error.message));
   }
 }
 

@@ -41,3 +41,9 @@ export function skipError() {
     type: SKIP_ERROR,
   };
 }
+
+export type WeatherActions =
+  | typeof setQuery
+  | typeof getCurrentWeather
+  | typeof getWeeklyWeather
+  | typeof setError;

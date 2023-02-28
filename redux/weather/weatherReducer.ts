@@ -18,9 +18,9 @@ export const weatherReducer = (state = initialState, action) => {
     case SET_QUERY:
       return { ...state, query: action.payload };
     case GET_CURRENT:
-      return { ...state, currentWeather: action.payload };
+      return { ...state, error: null, currentWeather: action.payload };
     case GET_WEEKLY:
-      return { ...state, weeklyWeather: action.payload };
+      return { ...state, error: null, weeklyWeather: action.payload };
     case SET_ERROR:
       return { ...state, error: action.payload };
     case SKIP_ERROR:
